@@ -1,4 +1,4 @@
-# CodigosSe-ales
+# CodigosSenales
 Todos los codigos de la materia Prosesamiento de Señales
 
 ## Integrantes
