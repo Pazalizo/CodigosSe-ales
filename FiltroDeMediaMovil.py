@@ -36,12 +36,12 @@ def moving_average_filter(signal, N, M):
 
 N = 50  # Tamaño de la ventana
 M = 50  # Número de muestras a promediar dentro de la ventana
-filtered_audio = moving_average_filter(audio_with_noise.flatten(), N, M)
-print(f"la senal sin filtrar es: {audio_with_noise}")
+filtered_audio = moving_average_filter(audio.flatten(), N, M)
+
 
 # Reproducir la señal sin filtrar
 print("Reproduciendo señal sin filtrar...")
-sd.play(audio_with_noise, fs)
+sd.play(audio, fs)
 sd.wait()
 
 # Reproducir la señal filtrada
@@ -53,7 +53,7 @@ sd.wait()
 write("filtered_audio.wav", fs, filtered_audio)
 
 # Graficar señales
-time = np.linspace(0, duration, len(audio_with_noise))
+time = np.linspace(0, duration, len(audio))
 
 plt.figure(figsize=(10, 6))
 
@@ -61,9 +61,9 @@ plt.subplot(3, 1, 1)
 plt.plot(time, audio)
 plt.title("Señal Original")
 
-plt.subplot(3, 1, 2)
-plt.plot(time, audio_with_noise)
-plt.title("Señal con Ruido")
+#plt.subplot(3, 1, 2)
+#plt.plot(time, audio_with_noise)
+#plt.title("Señal con Ruido")
 
 plt.subplot(3, 1, 3)
 plt.plot(time, filtered_audio)
