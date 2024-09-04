@@ -21,18 +21,23 @@ audio_with_noise = audio + noise
 # Guardar la señal de audio con ruido
 write(filename, fs, audio_with_noise)
 
-# Implementación del Filtro de Media Móvil
-def moving_average_filter(signal, window_size):
+# Implementación del Filtro de Media Móvil con ventana de 50 y promedio de 25 muestras
+def moving_average_filter(signal, N, M):
     filtered_signal = np.zeros_like(signal)
+    half_window = N // 2
     for i in range(len(signal)):
-        if i < window_size:
-            filtered_signal[i] = np.mean(signal[:i+1])
-        else:
-            filtered_signal[i] = np.mean(signal[i-window_size+1:i+1])
+        start = max(i - half_window, 0)
+        end = min(i + half_window + 1, len(signal))
+        if end - start > M:  # Si el rango de la ventana es mayor que M, se recorta
+            start = end - M
+        filtered_signal[i] = np.mean(signal[start:end])
+    print(f"la senal filtrada es: {filtered_signal}")
     return filtered_signal
 
-window_size = 50 #valor de M
-filtered_audio = moving_average_filter(audio_with_noise.flatten(), window_size)
+N = 50  # Tamaño de la ventana
+M = 50  # Número de muestras a promediar dentro de la ventana
+filtered_audio = moving_average_filter(audio_with_noise.flatten(), N, M)
+print(f"la senal sin filtrar es: {audio_with_noise}")
 
 # Reproducir la señal sin filtrar
 print("Reproduciendo señal sin filtrar...")
