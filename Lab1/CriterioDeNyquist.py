@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 from scipy.io.wavfile import write
 
 # Configuración
-duration = 10  # Duración en segundos
+duration = 5  # Duración en segundos
 sample_rate = 44100  # Tasa de muestreo en Hz
-output_sample_rate = 10000  # Tasa de muestreo objetivo
+output_sample_rate = 5000  # Tasa de muestreo objetivo
 
 # Grabar audio
 print("Grabando...")
@@ -24,6 +24,13 @@ reduced_audio = audio[indices]
  
 # Guardar el audio reducido
 write("audio_reducido_aleatorio.wav", output_sample_rate, reduced_audio)
+
+def ver_longitudes(audio_original, audio_reducido):
+    print(f"Longitud del audio original: {len(audio_original)} muestras")
+    print(f"Longitud del audio reducido: {len(audio_reducido)} muestras")
+
+# Ver las longitudes de los arrays de sonido
+ver_longitudes(audio, reduced_audio)
 
 # Graficar ambos audios
 time_original = np.linspace(0., duration, audio.shape[0])
