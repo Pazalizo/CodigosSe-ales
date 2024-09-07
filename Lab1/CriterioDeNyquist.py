@@ -1,12 +1,12 @@
 import sounddevice as sd
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.io.wavfile import write, read
+from scipy.io.wavfile import write
 
 # Configuración
-duration = 5  # Duración en segundos
+duration = 10  # Duración en segundos
 sample_rate = 44100  # Tasa de muestreo en Hz
-output_sample_rate = 16000  # Nueva tasa de muestreo
+output_sample_rate = 10000  # Tasa de muestreo objetivo
 
 # Grabar audio
 print("Grabando...")
@@ -17,11 +17,13 @@ print("Grabación finalizada.")
 # Guardar el audio grabado
 write("audio_original.wav", sample_rate, audio)
 
-# Reducción de puntos (submuestreo)
-reduced_audio = audio[::int(sample_rate/output_sample_rate)]
-
+# Reducción de puntos (submuestreo aleatorio)
+total_samples = int(duration * output_sample_rate)
+indices = np.sort(np.random.choice(len(audio), total_samples, replace=False))
+reduced_audio = audio[indices]
+ 
 # Guardar el audio reducido
-write("audio_reducido.wav", output_sample_rate, reduced_audio)
+write("audio_reducido_aleatorio.wav", output_sample_rate, reduced_audio)
 
 # Graficar ambos audios
 time_original = np.linspace(0., duration, audio.shape[0])
@@ -37,7 +39,7 @@ plt.ylabel("Amplitud")
 
 plt.subplot(2, 1, 2)
 plt.plot(time_reduced, reduced_audio)
-plt.title("Audio Reducido")
+plt.title("Audio Reducido Aleatoriamente")
 plt.xlabel("Tiempo [s]")
 plt.ylabel("Amplitud")
 
@@ -49,8 +51,8 @@ print("Reproduciendo audio reducido...")
 sd.play(reduced_audio, output_sample_rate)
 sd.wait()
 
-# Reproducir el audio normal
-print("Reproduciendo audio reducido...")
+# Reproducir el audio original
+print("Reproduciendo audio original...")
 sd.play(audio, sample_rate)
 sd.wait()
 print("Reproducción finalizada.")
