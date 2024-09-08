@@ -1,9 +1,7 @@
 import numpy as np
-
 def filtro_media_movil(x, M):
     N = len(x)
     y = np.zeros(N)
-    
     for n in range(N+1):
         if n <= M:
             # No hay suficientes datos previos, conservar el valor original
@@ -14,7 +12,6 @@ def filtro_media_movil(x, M):
             print(x[n - M -1: n-1])
             print(np.mean(x[n - M -1: n-1]))
             y[n-1] = np.mean(x[n - M -1: n-1])
-    
     return y
 
 # Secuencia x(n)
