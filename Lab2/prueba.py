@@ -13,13 +13,13 @@ def señalEntrada(a, b, n):
         señal_entrada.append(a * np.exp(b * i))
         print(f"X({i}): {señal_entrada[i]} ")
 
-def SeñalH(punto_inicial, punto_final, prueba):
+def SeñalH(punto_final):
     señal_H.clear()
     for i in range(0, punto_final):
         if i - 1 >= 0:
-            señal_H.append((c / (2 * a)) * (np.exp((d + f) * i) - np.exp(b) * np.exp((d + f) * (i - 1)) + np.exp((d - f) * i) - np.exp(b) * np.exp((d - f) * (i - 1))))
+            señal_H.append((c / (2 * a)) * (np.exp((d + k) * i) - np.exp(b) * np.exp((d + k) * (i - 1)) + np.exp((d - k) * i) - np.exp(b) * np.exp((d - k) * (i - 1))))
         else:
-            señal_H.append((c / (2 * a)) * (np.exp((d + f) * i) + np.exp((d - f) * i)))
+            señal_H.append((c / (2 * a)) * (np.exp((d + k) * i) + np.exp((d - k) * i)))
         print(f"h({i}):{señal_H[i]}")
 
 def convolucion(n):
@@ -57,34 +57,34 @@ a = 0.3
 b = 0.4
 c = 1
 d = 0.14
-f = 0.14
+k = 0.14
 n = 100
 
 # Interfaz gráfica para ingresar valores
 root = tk.Tk()
-root.configure(bg='blue')  # Cambiar el color de fondo de la ventana a azul
+root.configure(bg='#ffffea')  
 root.title("Entrada de Valores")
-root.geometry("400x400")
+root.geometry("300x300")
 
 # Crear etiquetas y campos de entrada para cada valor
-labels = ["a", "b", "c", "d", "f", "Cantidad de puntos (n)"]
-initial_values = [a, b, c, d, f, n]
+labels = ["a", "b", "c", "d", "k", "Cantidad de puntos (n)"]
+initial_values = [a, b, c, d, k, n]
 entries = []
 
 for i, label in enumerate(labels):
-    tk.Label(root, text=label, bg='blue', fg='white').grid(row=i, column=0, pady=5, padx=10, sticky="w")
+    tk.Label(root, text=label, bg='#a795a5', fg='white').grid(row=i, column=0, pady=5, padx=10, sticky="w")
     entry = ttk.Entry(root)
     entry.insert(0, str(initial_values[i]))
     entry.grid(row=i, column=1, pady=5, padx=10)
     entries.append(entry)
 
 def obtener_valores():
-    global a, b, c, d, f, n
+    global a, b, c, d, k, n  
     a = float(entries[0].get())
     b = float(entries[1].get())
     c = float(entries[2].get())
     d = float(entries[3].get())
-    f = float(entries[4].get())
+    k = float(entries[4].get())
     n = int(entries[5].get())
     root.destroy()
 
@@ -95,6 +95,6 @@ root.mainloop()
 
 # Llamar a las funciones correspondientes
 señalEntrada(a, b, n)
-SeñalH(0, n, 0)
+SeñalH(n)
 convolucion(n)
 graficar_señal(señal_entrada, señal_salida)
